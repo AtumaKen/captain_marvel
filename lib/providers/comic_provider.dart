@@ -1,12 +1,15 @@
 import 'file:///C:/Users/ASUS/AndroidStudioProjects/captain_marvel/lib/service/api_service.dart';
 import 'package:captain_marvel/models/comic.dart';
 import 'package:flutter/cupertino.dart';
-enum LoadingStatus{
-  DONE, LOADING
+
+enum LoadingStatus {
+  DONE,
+  LOADING
 }
 
 class ComicProvider with ChangeNotifier {
   late ApiService _apiService;
+
   // late Comic _comic;
   late List<Comic> _comics;
 
@@ -24,11 +27,18 @@ class ComicProvider with ChangeNotifier {
     _comics = [];
   }
 
-  fetchData(int offset) async{
-    if(_totalPages == 0 || offset<= _totalPages)
-    _comics = await _apiService.getData(offset);
-    _totalPages = _comics.length;
+  fetchData(int offset) async {
+    if (_totalPages == 0 || offset <= _totalPages) {
+      List<Comic> coms = await _apiService.getData(offset);
+      if(coms.isEmpty){
+        _totalPages = _comics.length;
+        _comics = coms;
+      }
+
+    else {
+      _comics.addAll(coms);
+    }
     notifyListeners();
-  }
+  }}
 
 }

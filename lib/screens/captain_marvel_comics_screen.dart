@@ -34,6 +34,7 @@ class _CaptainMarvelComicState extends State<CaptainMarvelComic> {
         if (comicProvider.comics.isEmpty)
           return Center(child: CupertinoActivityIndicator()); else
           return ListView.builder(
+            physics: const AlwaysScrollableScrollPhysics(),
             controller: _scrollController,
             itemExtent: 100,
             itemBuilder: (ctx, index) {
