@@ -1,16 +1,7 @@
 # captain_marvel
 
-A new Flutter application.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Steps taken
+1. read through the marvel api documentation.
+2. Get captain marvel id from marvel api on postman
+3. Compute hash for authentication
+4. Display data from marvel api on device
