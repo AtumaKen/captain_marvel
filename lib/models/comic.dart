@@ -3,11 +3,11 @@ class Comic {
   String? title;
   int? issueNumber;
   String? imageUrl;
-  List<dynamic>? prices;
+  List<dynamic>? dates;
 
   // int? total;
 
-  Comic({this.id, this.title, this.issueNumber, this.imageUrl, this.prices});
+  Comic({this.id, this.title, this.issueNumber, this.imageUrl, this.dates});
 
   factory Comic.fromJson(Map<dynamic, dynamic> parsedJson) {
     return Comic(
@@ -17,19 +17,18 @@ class Comic {
         imageUrl: parsedJson["thumbnail"]["path"] +
             "." +
             parsedJson["thumbnail"]["extension"] as String?,
-        // prices: (parsedJson["prices"] as List).map((e) => Prices.formJson(e)).toList()
-        // total: parsedJson["total"] as int?
+      dates: parsedJson["dates"]
         );
   }
 }
 
-class Prices {
+class Date {
   String? type;
-  double? amount;
+  DateTime? date;
 
-  Prices({this.type, this.amount});
+  Date({this.type, this.date});
 
-  factory Prices.formJson(Map<dynamic, dynamic> data) {
-    return Prices(type: data["type"], amount: data["price"]);
+  factory Date.formJson(Map<dynamic, dynamic> data) {
+    return Date(type: data["type"], date: data["price"]);
   }
 }
