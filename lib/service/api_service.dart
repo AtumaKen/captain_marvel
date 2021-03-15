@@ -6,10 +6,11 @@ import 'package:http/http.dart' as http;
 
 class ApiService {
   //captain marvel id: 1011097
+
   Future<List<Comic>> getData(int offset) async {
     String authority = "gateway.marvel.com";
     String path = "/v1/public/characters/1010338/comics";
-    final params = {
+    Map<String, dynamic> params = {
       "ts": "1",
       "apikey": "4d9804cc157036ba6e3983a9c17e8ad1",
       "hash": "2ad9b5231885ddd6d70bdbfe43eacc3e",

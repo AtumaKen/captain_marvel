@@ -24,7 +24,7 @@ class Comic {
 
 class Date {
   String? type;
-  DateTime? date;
+  String? date;
 
   Date({this.type, this.date});
 
