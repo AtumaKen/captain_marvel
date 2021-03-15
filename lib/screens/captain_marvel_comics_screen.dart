@@ -44,6 +44,8 @@ class _CaptainMarvelComicState extends State<CaptainMarvelComic> {
             itemExtent: 100,
             itemBuilder: (ctx, index) {
               if (comicProvider.comics.isNotEmpty ){
+                if (index == comicProvider.comics.length) return Center(child: CupertinoActivityIndicator(),);
+                //todo: add end of list notification
                 return ListTile(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5)),
@@ -59,10 +61,9 @@ class _CaptainMarvelComicState extends State<CaptainMarvelComic> {
                 );
               }
 
-              else if (index == comicProvider.comics.length) return Center(child: CupertinoActivityIndicator(),);
               return Center(child: CircularProgressIndicator());
             },
-            itemCount: comicProvider.comics.length ,
+            itemCount: comicProvider.comics.length  + 1,
           );
       },
     );
