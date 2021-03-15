@@ -25,7 +25,6 @@ class _CaptainMarvelComicState extends State<CaptainMarvelComic> {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
         _offset += 20;
-        print(_offset);
           dataProvider.fetchData(_offset);
       }
     });
