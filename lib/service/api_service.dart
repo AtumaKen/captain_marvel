@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:captain_marvel/models/comic.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class ApiService {
@@ -20,14 +19,14 @@ class ApiService {
     final uri = Uri.https(authority, path, params);
     final response = await http.get(uri);
     final data = jsonDecode(response.body) as Map<dynamic, dynamic>;
-    print("sending");
+    // print("sending");
     List<dynamic> stuff = data["data"]["results"];
     List<Comic> comics = [];
     stuff.forEach((element) {
-      print(element["image"]);
+      // print(element["image"]);
       comics.add(Comic.fromJson(element));
     });
-    comics.forEach((element) {print(element.imageUrl);});
+    // comics.forEach((element) {print(element.imageUrl);});
 
     return comics;
   }
