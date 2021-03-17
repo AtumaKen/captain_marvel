@@ -1,6 +1,7 @@
 import 'package:captain_marvel/providers/comic_provider.dart';
 import 'package:captain_marvel/screens/appearances_screen.dart';
 import 'package:captain_marvel/screens/home_screen.dart';
+import 'package:captain_marvel/screens/page_view_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -19,12 +20,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(primaryColor: Colors.black),
-        home: HomeScreen(),
-        routes: {
-          HomeScreen.routeName: (ctx) => HomeScreen(),
-          ComicsScreen.routeName: (ctx) => ComicsScreen(),
-          AppearancesScreen.routeName: (ctx) => AppearancesScreen()
-        },
+        home: MainScreen(),
       ),
     );
   }

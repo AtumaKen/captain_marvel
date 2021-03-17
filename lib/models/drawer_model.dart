@@ -2,10 +2,9 @@ import 'dart:ui';
 
 class DrawerModel{
   String? title;
-  VoidCallback? callBack;
   DrawerIndex? index;
 
-  DrawerModel({this.title, this.callBack, this.index});
+  DrawerModel({this.title, this.index});
 }
 
 enum DrawerIndex{
