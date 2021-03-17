@@ -14,16 +14,18 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(primaryColor: Colors.black),
-      home: ChangeNotifierProvider.value(
-          value: ComicProvider(), child: HomeScreen()),
-      routes: {
-        HomeScreen.routeName: (ctx) => HomeScreen(),
-        ComicsScreen.routeName: (ctx) => ComicsScreen(),
-        AppearancesScreen.routeName: (ctx) => AppearancesScreen()
-      },
+    return ChangeNotifierProvider.value(
+      value: ComicProvider(),
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(primaryColor: Colors.black),
+        home: HomeScreen(),
+        routes: {
+          HomeScreen.routeName: (ctx) => HomeScreen(),
+          ComicsScreen.routeName: (ctx) => ComicsScreen(),
+          AppearancesScreen.routeName: (ctx) => AppearancesScreen()
+        },
+      ),
     );
   }
 }

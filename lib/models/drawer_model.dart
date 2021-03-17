@@ -9,5 +9,5 @@ class DrawerModel{
 }
 
 enum DrawerIndex{
-  Home, Comics, Appearances
+  Home, Comics, Appearances, None
 }

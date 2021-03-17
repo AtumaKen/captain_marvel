@@ -73,7 +73,6 @@ class _ComicsScreenState extends State<ComicsScreen> {
           },
         ),
       ),
-      drawer: AppDrawer(),
     );
   }
 }

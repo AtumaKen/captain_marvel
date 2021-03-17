@@ -19,7 +19,6 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Text("Home"),
       ),
       body: Container(),
-      drawer: AppDrawer(),
     );
   }
 }
