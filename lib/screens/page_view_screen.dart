@@ -5,62 +5,52 @@ import 'package:captain_marvel/screens/home_screen.dart';
 import 'package:captain_marvel/widgets/drawer.dart';
 import 'package:flutter/material.dart';
 
-class PageViewScreen extends StatefulWidget {
+class MainScreen extends StatefulWidget {
   @override
-  _PageViewScreenState createState() => _PageViewScreenState();
+  _MainScreenState createState() => _MainScreenState();
 }
 
-class _PageViewScreenState extends State<PageViewScreen> {
-  late final PageController _pageController;
-  int _page = 0;
-
-  @override
-  void initState() {
-    _pageController = PageController(initialPage: 0);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _pageController.dispose();
-    super.dispose();
-  }
-
-  List<DrawerModel> drawerItems = [
-    DrawerModel(
-      title: "HOME",
-      callBack: () {},
-      index: DrawerIndex.Home,
-    ),
-    DrawerModel(
-        title: "COMICS",
-        callBack: () {},
-        index: DrawerIndex.Comics),
-    DrawerModel(
-        title: "APPEARANCES",
-        callBack: () {},
-        index: DrawerIndex.Appearances)
-  ];
+class _MainScreenState extends State<MainScreen> {
+  Widget _screenView = HomeScreen();
+  DrawerIndex drawerIndex = DrawerIndex.None;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: AppDrawer(drawerItems: drawerItems, page: _page, callBack: ()=> _onPageChanged(_page),),
-      body: PageView(
-        physics: NeverScrollableScrollPhysics(),
-        controller: _pageController,
-        onPageChanged:  _onPageChanged,
-        children: [
-          HomeScreen(), ComicsScreen(), AppearancesScreen()
-        ],
+      body: _screenView,
+      appBar: AppBar(title: Text("AppBar"),),
+      drawer: AppDrawer(
+        screenIndex: drawerIndex == DrawerIndex.None ? DrawerIndex.Home : drawerIndex,
+        callBack: (DrawerIndex index){
+          try{
+            _changeIndex(index);
+          }
+          catch (e){
+
+          }
+        }
       ),
     );
   }
 
-  void _onPageChanged(int page){
-    setState(() {
-      _page = page;
-    });
-    _pageController.jumpToPage(page);
+  void _changeIndex(DrawerIndex  index){
+    if (drawerIndex != index) {
+      drawerIndex = index;
+      if(drawerIndex == DrawerIndex.Home){
+        setState(() {
+          _screenView = HomeScreen();
+        });
+      }
+      else if (drawerIndex == DrawerIndex.Comics){
+        setState(() {
+          _screenView = ComicsScreen();
+        });
+      }
+      else if(drawerIndex == DrawerIndex.Appearances){
+        setState(() {
+          _screenView = AppearancesScreen();
+        });
+      }
+    }
   }
 }
