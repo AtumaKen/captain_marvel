@@ -1,7 +1,7 @@
+import 'package:captain_marvel/service/api_service.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
-
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -9,6 +9,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text("This is home"));
+    return Center(
+        child: Text("This is home"));
   }
 }

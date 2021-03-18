@@ -1,6 +1,6 @@
+import 'package:captain_marvel/models/comic.dart';
 import 'package:captain_marvel/providers/comic_provider.dart';
 import 'package:captain_marvel/utility/utilities.dart';
-import 'package:captain_marvel/widgets/drawer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +17,6 @@ class _ComicsScreenState extends State<ComicsScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     var dataProvider = Provider.of<ComicProvider>(context, listen: false);
     dataProvider.initStreams();
     dataProvider.fetchData(_offset);
@@ -44,6 +43,7 @@ class _ComicsScreenState extends State<ComicsScreen> {
               controller: _scrollController,
               itemExtent: 100,
               itemBuilder: (ctx, index) {
+                Comic comic = comicProvider.comics[index];
                 if (comicProvider.comics.isNotEmpty) {
                   if (index == comicProvider.comics.length)
                     return Center(
@@ -54,12 +54,12 @@ class _ComicsScreenState extends State<ComicsScreen> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5)),
                     leading: Image.network(
-                      comicProvider.comics[index].imageUrl!,
+                      comic.imageUrl!,
                       height: 100,
                     ),
-                    title: Text(comicProvider.comics[index].title!),
+                    title: Text(comic.title!),
                     subtitle: Text(
-                        "Release Date: ${Utilities.dateToString(comicProvider.comics[index].dates![0]["date"])}"),
+                        "Release Date: ${Utilities.dateToString(comic.dates![0]["date"])}"),
                     trailing: Text(
                         "IssueNumber: ${comicProvider.comics[index].issueNumber}"),
                   );

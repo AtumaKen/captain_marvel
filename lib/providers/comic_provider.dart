@@ -8,10 +8,8 @@ enum LoadingStatus { DONE, LOADING }
 class ComicProvider with ChangeNotifier {
   late ApiService _apiService;
 
-  // late Comic _comic;
   late List<Comic> _comics;
 
-  // Comic get comic => _comic;
   List<Comic> get comics => _comics;
   int _totalPages = 0;
 
@@ -26,7 +24,7 @@ class ComicProvider with ChangeNotifier {
   }
 
   fetchData(int offset) async {
-    List<Comic> coms = await _apiService.getData(offset);
+    List<Comic> coms = await _apiService.getComics(offset);
     if (coms.isEmpty) {
       _totalPages = _comics.length;
       _comics = coms;
