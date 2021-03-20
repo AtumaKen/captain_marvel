@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ComicsScreen extends StatefulWidget {
-
   @override
   _ComicsScreenState createState() => _ComicsScreenState();
 }
@@ -19,7 +18,7 @@ class _ComicsScreenState extends State<ComicsScreen> {
   void initState() {
     var dataProvider = Provider.of<ComicProvider>(context, listen: false);
     dataProvider.initStreams();
-    dataProvider.fetchData(_offset);
+    if (dataProvider.comics.isEmpty) dataProvider.fetchData(_offset);
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
@@ -35,40 +34,37 @@ class _ComicsScreenState extends State<ComicsScreen> {
     return SafeArea(
       child: Consumer<ComicProvider>(
         builder: (ctx, comicProvider, child) {
-          if (comicProvider.comics.isEmpty)
-            return Center(child: CupertinoActivityIndicator());
-          else
+          List<Comic> comics = comicProvider.comics;
+          if (comics.isNotEmpty) {
             return ListView.builder(
               physics: const AlwaysScrollableScrollPhysics(),
               controller: _scrollController,
               itemExtent: 100,
               itemBuilder: (ctx, index) {
-                Comic comic = comicProvider.comics[index];
-                if (comicProvider.comics.isNotEmpty) {
-                  if (index == comicProvider.comics.length)
-                    return Center(
-                      child: CupertinoActivityIndicator(),
-                    );
-                  //todo: add end of list notification
-                  return ListTile(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5)),
-                    leading: Image.network(
-                      comic.imageUrl!,
-                      height: 100,
-                    ),
-                    title: Text(comic.title!),
-                    subtitle: Text(
-                        "Release Date: ${Utilities.dateToString(comic.dates![0]["date"])}"),
-                    trailing: Text(
-                        "IssueNumber: ${comicProvider.comics[index].issueNumber}"),
-                  );
-                }
-
-                return Center(child: CircularProgressIndicator());
+                Comic comic = comics[index];
+                if (index  == comics.length -1 )
+                  return Center(child: CupertinoActivityIndicator());
+                //todo: add end of list notification
+                return ListTile(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5)),
+                  leading: Image.network(
+                    comic.imageUrl!,
+                    height: 100,
+                  ),
+                  title: Text(comic.title!),
+                  subtitle: Text(
+                      "Release Date: ${Utilities.dateToString(comic.dates![0]["date"])}"),
+                  trailing: Text(
+                      "IssueNumber: ${comicProvider.comics[index].issueNumber}"),
+                );
               },
-              itemCount: comicProvider.comics.length + 1,
+              itemCount: comicProvider.comics.length,
             );
+          }
+          return Center(
+            child: CircularProgressIndicator(valueColor:  AlwaysStoppedAnimation<Color>(Colors.red),),
+          );
         },
       ),
     );

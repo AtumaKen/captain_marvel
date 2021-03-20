@@ -1,5 +1,6 @@
 import 'package:captain_marvel/models/appearance.dart';
 import 'package:captain_marvel/providers/appearance_provider.dart';
+import 'package:captain_marvel/providers/comic_provider.dart';
 import 'package:captain_marvel/utility/utilities.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,19 +13,17 @@ class AppearancesScreen extends StatefulWidget {
 
 class _AppearancesScreenState extends State<AppearancesScreen> {
   ScrollController _scrollController = ScrollController();
-  int _offset = 100;
 
   @override
   void initState() {
     var dataProvider = Provider.of<AppearanceProvider>(context, listen: false);
     dataProvider.initStreams();
-    dataProvider.fetchData(0);
+    if (dataProvider.appearances.isEmpty) dataProvider.fetchData();
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
-              _scrollController.position.maxScrollExtent ||
-          dataProvider.appearances.length < 20) {
-        _offset += 100;
-        dataProvider.fetchData(_offset);
+          _scrollController.position.maxScrollExtent ) {
+        dataProvider.setLoadingStatus(LoadingStatus.LOADING);
+        dataProvider.fetchData();
       }
     });
     super.initState();
@@ -34,23 +33,34 @@ class _AppearancesScreenState extends State<AppearancesScreen> {
   Widget build(BuildContext context) {
     return Consumer<AppearanceProvider>(
         builder: (ctx, appearanceProvider, child) {
-      if (appearanceProvider.appearances.isEmpty)
-        return Center(child: CupertinoActivityIndicator());
-      return ListView.builder(
-        itemBuilder: (ctx, index) {
-          Appearance appearance = appearanceProvider.appearances[index];
-          return ListTile(
-            leading: Image.network(appearance.imageUrl!),
-            title: Text(appearance.title!),
-            subtitle: Text(
-              Utilities.dateToString(
-                appearance.dates![0]["date"],
+      List<Appearance> appearances = appearanceProvider.appearances;
+      if (appearances.isNotEmpty) {
+        return ListView.builder(
+          physics: const AlwaysScrollableScrollPhysics(),
+          controller: _scrollController,
+          itemBuilder: (ctx, index) {
+            Appearance appearance = appearances[index];
+            if (index == appearances.length - 1)
+              return Center(
+                child: CupertinoActivityIndicator(),
+              );
+            return ListTile(
+              leading: Image.network(appearance.imageUrl!),
+              title: Text(appearance.title!),
+              subtitle: Text(
+                Utilities.dateToString(
+                  appearance.dates![0]["date"],
+                ),
               ),
-            ),
-          );
-        },
-        itemCount: appearanceProvider.appearances.length,
-      );
+            );
+          },
+          itemCount: appearanceProvider.appearances.length,
+        );
+      }
+      return Center(
+          child: CircularProgressIndicator(
+        valueColor: AlwaysStoppedAnimation<Color>(Colors.red),
+      ));
     });
   }
 }

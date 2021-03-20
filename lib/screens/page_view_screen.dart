@@ -16,19 +16,21 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _screenView,
-      appBar: AppBar(title: Text("AppBar"),),
-      drawer: AppDrawer(
-        screenIndex: drawerIndex == DrawerIndex.None ? DrawerIndex.Home : drawerIndex,
-        callBack: (DrawerIndex index){
-          try{
-            _changeIndex(index);
-          }
-          catch (e){
+    return SafeArea(
+      child: Scaffold(
+        body: _screenView,
+        appBar: AppBar(title: Text("AppBar"),),
+        drawer: AppDrawer(
+          screenIndex: drawerIndex == DrawerIndex.None ? DrawerIndex.Home : drawerIndex,
+          callBack: (DrawerIndex index){
+            try{
+              _changeIndex(index);
+            }
+            catch (e){
 
+            }
           }
-        }
+        ),
       ),
     );
   }

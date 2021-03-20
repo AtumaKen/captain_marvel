@@ -13,6 +13,7 @@ class ApiService {
   String _ts = "1";
 
   Future<List<Comic>> getComics(int offset) async {
+    print("trigger comics");
     String path = "/v1/public/characters/1010338/comics";
     Map<String, dynamic> params = {
       "ts": _ts,
@@ -36,6 +37,7 @@ class ApiService {
   Future<List<Appearance>> getAppearances(int offset) async {
     //todo: add exception handling
     String path = "/v1/public/comics";
+    print(offset);
     print("sending");
     Map<String, String> params = {
       "ts": _ts,

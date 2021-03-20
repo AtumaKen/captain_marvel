@@ -24,12 +24,12 @@ class ComicProvider with ChangeNotifier {
   }
 
   fetchData(int offset) async {
-    List<Comic> coms = await _apiService.getComics(offset);
-    if (coms.isEmpty) {
+    List<Comic> localComics = await _apiService.getComics(offset);
+    if (localComics.isEmpty) {
       _totalPages = _comics.length;
-      _comics = coms;
+      _comics = localComics;
     } else {
-      _comics.addAll(coms);
+      _comics.addAll(localComics);
     }
     notifyListeners();
   }
