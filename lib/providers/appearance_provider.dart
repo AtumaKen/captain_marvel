@@ -9,7 +9,7 @@ class AppearanceProvider with ChangeNotifier{
   static int _totalPages = 0;
   LoadingStatus _loadingStatus = LoadingStatus.DONE;
 
-  getMoreData() => _loadingStatus;
+  getLoadingStatus() => _loadingStatus;
 
   List<Appearance> get appearances => _appearances;
 
@@ -19,6 +19,7 @@ class AppearanceProvider with ChangeNotifier{
   }
 
   fetchData() async {
+    try{
     List<Appearance> localAppearances = await _apiService.getAppearances(_totalPages);
     if (localAppearances.isEmpty) {
       while(localAppearances.length <= 12){
@@ -33,9 +34,10 @@ class AppearanceProvider with ChangeNotifier{
       _appearances.addAll(localAppearances);
       setLoadingStatus(LoadingStatus.DONE);
     }
-    // else {
-    //   _appearances.addAll(localAppearances);
-    // }
+    } catch (e){
+      setLoadingStatus(LoadingStatus.ERROR);
+    }
+
   }
 
   Future<List<Appearance>> addTwelve(List<Appearance> localAppearance, int offset) async {

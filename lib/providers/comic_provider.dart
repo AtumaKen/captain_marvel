@@ -3,13 +3,13 @@ import 'package:flutter/cupertino.dart';
 
 import '../service/api_service.dart';
 
-enum LoadingStatus { DONE, LOADING }
+enum LoadingStatus { DONE, LOADING, ERROR }
 
 class ComicProvider with ChangeNotifier {
   late ApiService _apiService;
-
+  LoadingStatus _loadingStatus = LoadingStatus.DONE;
   late List<Comic> _comics;
-
+  getLoadingStatus() => _loadingStatus;
   List<Comic> get comics => _comics;
   int _totalPages = 0;
 
@@ -24,13 +24,23 @@ class ComicProvider with ChangeNotifier {
   }
 
   fetchData(int offset) async {
-    List<Comic> localComics = await _apiService.getComics(offset);
-    if (localComics.isEmpty) {
-      _totalPages = _comics.length;
-      _comics = localComics;
-    } else {
-      _comics.addAll(localComics);
+    try {
+      List<Comic> localComics = await _apiService.getComics(offset);
+      if (localComics.isEmpty) {
+        _totalPages = _comics.length;
+        _comics = localComics;
+        setLoadingStatus(LoadingStatus.DONE);
+      } else {
+        _comics.addAll(localComics);
+        setLoadingStatus(LoadingStatus.DONE);
+      }
+    } catch(e){
+      setLoadingStatus(LoadingStatus.ERROR);
     }
+  }
+
+  setLoadingStatus(LoadingStatus loadingStatus){
+    _loadingStatus = loadingStatus;
     notifyListeners();
   }
 }

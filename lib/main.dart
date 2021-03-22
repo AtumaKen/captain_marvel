@@ -14,18 +14,20 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-        providers: [
-          ChangeNotifierProvider.value(
-            value: ComicProvider(),
-          ),
-          ChangeNotifierProvider.value(value: AppearanceProvider())
-        ],
-        child: MaterialApp(
-          title: 'Flutter Demo',
-          theme: ThemeData(primaryColor: Colors.black),
-          debugShowCheckedModeBanner: false,
-          home: MainScreen(),
+      providers: [
+        ChangeNotifierProvider.value(
+          value: ComicProvider(),
         ),
+        ChangeNotifierProvider.value(value: AppearanceProvider())
+      ],
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primaryColor: Colors.black,
+        ),
+        debugShowCheckedModeBanner: false,
+        home: MainScreen(),
+      ),
     );
   }
 }

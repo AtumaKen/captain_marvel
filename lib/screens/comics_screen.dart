@@ -35,6 +35,8 @@ class _ComicsScreenState extends State<ComicsScreen> {
       child: Consumer<ComicProvider>(
         builder: (ctx, comicProvider, child) {
           List<Comic> comics = comicProvider.comics;
+          if (comicProvider.getLoadingStatus() == LoadingStatus.ERROR)
+            return Center(child: Text("Something went wrong"));
           if (comics.isNotEmpty) {
             return ListView.builder(
               physics: const AlwaysScrollableScrollPhysics(),
@@ -45,14 +47,14 @@ class _ComicsScreenState extends State<ComicsScreen> {
                 if (index  == comics.length -1 )
                   return Center(child: CupertinoActivityIndicator());
                 //todo: add end of list notification
-                return ListTile(
+                return ListTile(tileColor: Colors.black54,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5)),
                   leading: Image.network(
                     comic.imageUrl!,
                     height: 100,
                   ),
-                  title: Text(comic.title!),
+                  title: Text(comic.title!,),
                   subtitle: Text(
                       "Release Date: ${Utilities.dateToString(comic.dates![0]["date"])}"),
                   trailing: Text(

@@ -21,7 +21,7 @@ class _AppearancesScreenState extends State<AppearancesScreen> {
     if (dataProvider.appearances.isEmpty) dataProvider.fetchData();
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent ) {
+          _scrollController.position.maxScrollExtent) {
         dataProvider.setLoadingStatus(LoadingStatus.LOADING);
         dataProvider.fetchData();
       }
@@ -33,7 +33,12 @@ class _AppearancesScreenState extends State<AppearancesScreen> {
   Widget build(BuildContext context) {
     return Consumer<AppearanceProvider>(
         builder: (ctx, appearanceProvider, child) {
+      if (appearanceProvider.getLoadingStatus() == LoadingStatus.ERROR)
+        return Center(
+          child: Text("Something went wrong"),
+        );
       List<Appearance> appearances = appearanceProvider.appearances;
+
       if (appearances.isNotEmpty) {
         return ListView.builder(
           physics: const AlwaysScrollableScrollPhysics(),
