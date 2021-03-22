@@ -11,7 +11,7 @@ class ComicProvider with ChangeNotifier {
   late List<Comic> _comics;
   getLoadingStatus() => _loadingStatus;
   List<Comic> get comics => _comics;
-  int _totalPages = 0;
+  static int _totalPages = 0;
 
   ComicProvider() {
     initStreams();
@@ -30,12 +30,15 @@ class ComicProvider with ChangeNotifier {
         _totalPages = _comics.length;
         _comics = localComics;
         setLoadingStatus(LoadingStatus.DONE);
-      } else {
+      } else if(_totalPages <= ApiService.totalComics) {
         setLoadingStatus(LoadingStatus.LOADING);
         _comics.addAll(localComics);
+        _totalPages += comics.length;
+        print(_totalPages);
         setLoadingStatus(LoadingStatus.DONE);
         //todo: set end of list notification
       }
+      else setLoadingStatus(LoadingStatus.END);
     } catch(e){
       setLoadingStatus(LoadingStatus.ERROR);
       print(e.toString());

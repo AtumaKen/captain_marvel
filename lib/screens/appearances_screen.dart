@@ -22,7 +22,7 @@ class _AppearancesScreenState extends State<AppearancesScreen> {
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
-        if(dataProvider.getLoadingStatus() == LoadingStatus.LOADING) return;
+        if (dataProvider.getLoadingStatus() == LoadingStatus.LOADING) return;
         dataProvider.setLoadingStatus(LoadingStatus.LOADING);
         dataProvider.fetchData();
       }
@@ -47,10 +47,11 @@ class _AppearancesScreenState extends State<AppearancesScreen> {
           itemExtent: 100,
           itemBuilder: (ctx, index) {
             Appearance appearance = appearances[index];
-            if (index == appearances.length - 1)
-              return Center(
-                child: CupertinoActivityIndicator(),
-              );
+            if (index == appearances.length - 1) {
+              if (appearanceProvider.getLoadingStatus() == LoadingStatus.END)
+                return Center(child: Text("The End"));
+              return Center(child: CupertinoActivityIndicator());
+            }
             return ListTile(
               leading: Image.network(appearance.imageUrl!),
               title: Text(appearance.title!),
@@ -68,11 +69,13 @@ class _AppearancesScreenState extends State<AppearancesScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-        CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation<Color>(Colors.red),
-        ),
-        SizedBox(height: 10,),
-        Text("This might take a while"),
+            CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(Colors.red),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Text("This might take a while"),
           ],
         ),
       );

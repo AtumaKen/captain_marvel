@@ -49,8 +49,10 @@ class _ComicsScreenState extends State<ComicsScreen> {
               itemExtent: 100,
               itemBuilder: (ctx, index) {
                 Comic comic = comics[index];
-                if (index  == comics.length -1 )
+                if (index  == comics.length -1 ){
+                  if(comicProvider.getLoadingStatus() == LoadingStatus.END) return Center(child: Text("The End"));
                   return Center(child: CupertinoActivityIndicator());
+                }
                 //todo: add end of list notification
                 return ListTile(
                   shape: RoundedRectangleBorder(
