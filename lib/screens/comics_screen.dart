@@ -6,13 +6,16 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ComicsScreen extends StatefulWidget {
+
   @override
   _ComicsScreenState createState() => _ComicsScreenState();
 }
 
 class _ComicsScreenState extends State<ComicsScreen> {
+
   int _offset = 20;
   ScrollController _scrollController = ScrollController();
+
 
   @override
   void initState() {
@@ -22,6 +25,8 @@ class _ComicsScreenState extends State<ComicsScreen> {
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
+        if(dataProvider.getLoadingStatus() == LoadingStatus.LOADING) return;
+        dataProvider.setLoadingStatus(LoadingStatus.LOADING);
         _offset += 20;
         dataProvider.fetchData(_offset);
       }
@@ -47,12 +52,12 @@ class _ComicsScreenState extends State<ComicsScreen> {
                 if (index  == comics.length -1 )
                   return Center(child: CupertinoActivityIndicator());
                 //todo: add end of list notification
-                return ListTile(tileColor: Colors.black54,
+                return ListTile(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5)),
                   leading: Image.network(
                     comic.imageUrl!,
-                    height: 100,
+                    height: 200,
                   ),
                   title: Text(comic.title!,),
                   subtitle: Text(

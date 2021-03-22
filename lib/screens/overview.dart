@@ -6,7 +6,7 @@ class OverviewWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(children: [
-      CommonWidget(),
+      CommonWidget(imageName: "assets/images/cpt_marvel.jpg",),
       FollowWidget(),
     ],);
   }

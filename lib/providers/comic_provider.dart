@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 
 import '../service/api_service.dart';
 
-enum LoadingStatus { DONE, LOADING, ERROR }
+enum LoadingStatus { DONE, LOADING, ERROR, END }
 
 class ComicProvider with ChangeNotifier {
   late ApiService _apiService;
@@ -23,7 +23,7 @@ class ComicProvider with ChangeNotifier {
     _comics = [];
   }
 
-  fetchData(int offset) async {
+  void fetchData(int offset) async {
     try {
       List<Comic> localComics = await _apiService.getComics(offset);
       if (localComics.isEmpty) {
@@ -31,16 +31,22 @@ class ComicProvider with ChangeNotifier {
         _comics = localComics;
         setLoadingStatus(LoadingStatus.DONE);
       } else {
+        setLoadingStatus(LoadingStatus.LOADING);
         _comics.addAll(localComics);
         setLoadingStatus(LoadingStatus.DONE);
+        //todo: set end of list notification
       }
     } catch(e){
       setLoadingStatus(LoadingStatus.ERROR);
+      print(e.toString());
     }
   }
 
-  setLoadingStatus(LoadingStatus loadingStatus){
+
+
+  void setLoadingStatus(LoadingStatus loadingStatus){
     _loadingStatus = loadingStatus;
     notifyListeners();
   }
+
 }

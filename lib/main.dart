@@ -2,9 +2,9 @@ import 'package:captain_marvel/providers/appearance_provider.dart';
 import 'package:captain_marvel/providers/comic_provider.dart';
 import 'package:captain_marvel/screens/page_view_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-import 'screens/comics_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -13,6 +13,8 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations(
+        [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
     return MultiProvider(
       providers: [
         ChangeNotifierProvider.value(

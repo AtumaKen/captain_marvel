@@ -8,10 +8,9 @@ class Utilities{
     return DateFormat.yMd().format(DateTime.parse(date));
   }
 
-  static List<Appearance> filterCaptainMarvel(List<dynamic> publishedComics){
+  static List<Appearance> filterCaptainMarvel(List<dynamic> publishedComics) {
     List<Appearance> appearances = [];
     publishedComics.forEach((element) {
-      print("checking");
       List<dynamic> items = element["characters"]["items"];
       items.forEach((characters) {
         if ((characters["name"] as String).contains("Captain Marvel")) {
@@ -21,4 +20,5 @@ class Utilities{
     });
     return appearances;
   }
+
 }

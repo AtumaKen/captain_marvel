@@ -22,6 +22,7 @@ class _AppearancesScreenState extends State<AppearancesScreen> {
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
+        if(dataProvider.getLoadingStatus() == LoadingStatus.LOADING) return;
         dataProvider.setLoadingStatus(LoadingStatus.LOADING);
         dataProvider.fetchData();
       }
@@ -43,6 +44,7 @@ class _AppearancesScreenState extends State<AppearancesScreen> {
         return ListView.builder(
           physics: const AlwaysScrollableScrollPhysics(),
           controller: _scrollController,
+          itemExtent: 100,
           itemBuilder: (ctx, index) {
             Appearance appearance = appearances[index];
             if (index == appearances.length - 1)
@@ -63,9 +65,17 @@ class _AppearancesScreenState extends State<AppearancesScreen> {
         );
       }
       return Center(
-          child: CircularProgressIndicator(
-        valueColor: AlwaysStoppedAnimation<Color>(Colors.red),
-      ));
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+        CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation<Color>(Colors.red),
+        ),
+        SizedBox(height: 10,),
+        Text("This might take a while"),
+          ],
+        ),
+      );
     });
   }
 }

@@ -11,10 +11,16 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-
-
   Widget _screenView = HomeScreen();
-  Widget appBarTitle = Image.asset("assets/images/marvel-logo-header.jpg", height: 60,);
+  bool sortedAppearances = false;
+  bool sortedComics = false;
+  PreferredSizeWidget appBar = AppBar(
+    title: Image.asset(
+      "assets/images/marvel-logo-header.jpg",
+      height: 60,
+    ),
+    centerTitle: true,
+  );
   DrawerIndex drawerIndex = DrawerIndex.None;
 
   @override
@@ -22,41 +28,80 @@ class _MainScreenState extends State<MainScreen> {
     return SafeArea(
       child: Scaffold(
         body: _screenView,
-        appBar: AppBar(title: appBarTitle, centerTitle: true,),
+        appBar: appBar,
         drawer: AppDrawer(
-          screenIndex: drawerIndex == DrawerIndex.None ? DrawerIndex.Home : drawerIndex,
-          callBack: (DrawerIndex index){
-            try{
-              _changeIndex(index);
-            }
-            catch (e){
-
-            }
-          }
-        ),
+            screenIndex: drawerIndex == DrawerIndex.None
+                ? DrawerIndex.Home
+                : drawerIndex,
+            callBack: (DrawerIndex index) {
+              try {
+                _changeIndex(index);
+              } catch (e) {}
+            }),
       ),
     );
   }
 
-  void _changeIndex(DrawerIndex  index){
+  void _changeIndex(DrawerIndex index) {
     if (drawerIndex != index) {
       drawerIndex = index;
-      if(drawerIndex == DrawerIndex.Home){
+      if (drawerIndex == DrawerIndex.Home) {
         setState(() {
           _screenView = HomeScreen();
-          appBarTitle = Image.asset("assets/images/marvel-logo-header.jpg", height: 60,);
+          appBar = AppBar(
+            title: Image.asset(
+              "assets/images/marvel-logo-header.jpg",
+              height: 60,
+            ),
+            centerTitle: true,
+          );
         });
-      }
-      else if (drawerIndex == DrawerIndex.Comics){
+      } else if (drawerIndex == DrawerIndex.Comics) {
         setState(() {
+          appBar = AppBar(
+            title: Text("Comics"),
+            centerTitle: true,
+            actions: [
+              PopupMenuButton(
+                itemBuilder: (_) => [
+                  PopupMenuItem(
+                    child: Text("Sort By Date"),
+                    value: 0,
+                  ),
+                ],
+                onSelected: (index) {
+                  if (index == 0) {
+                    setState(() {
+                      sortedComics = !sortedComics;
+                    });
+                  }
+                },
+              )
+            ],
+          );
           _screenView = ComicsScreen();
-          appBarTitle = Text("Comics");
         });
-      }
-      else if(drawerIndex == DrawerIndex.Appearances){
+      } else if (drawerIndex == DrawerIndex.Appearances) {
         setState(() {
           _screenView = AppearancesScreen();
-          appBarTitle = Text("Appearances");
+          appBar = AppBar(
+            title: Text("Appearances"),
+            centerTitle: true,
+            actions: [
+              PopupMenuButton(
+                itemBuilder: (_) => [
+                  PopupMenuItem(
+                    child: Text("Sort By Date"),
+                  ),
+                ],
+                onSelected: (index) {
+                  setState(() {
+                    sortedAppearances = !sortedAppearances;
+                  });
+                },
+              )
+            ],
+          );
         });
       }
     }

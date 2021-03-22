@@ -2,6 +2,9 @@ import 'file:///C:/Users/ASUS/AndroidStudioProjects/captain_marvel/lib/widgets/c
 import 'package:flutter/material.dart';
 
 class CommonWidget extends StatelessWidget {
+  final String imageName;
+
+  const CommonWidget({Key? key, required this.imageName}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -15,7 +18,7 @@ class CommonWidget extends StatelessWidget {
             image: DecorationImage(
               fit: BoxFit.cover,
               image: AssetImage(
-                "assets/images/cpt_marvel.jpg",
+                imageName,
               ),
             ),
           ),

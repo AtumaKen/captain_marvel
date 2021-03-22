@@ -22,32 +22,32 @@ class AppearanceProvider with ChangeNotifier{
     try{
     List<Appearance> localAppearances = await _apiService.getAppearances(_totalPages);
     if (localAppearances.isEmpty) {
-      while(localAppearances.length <= 12){
+      setLoadingStatus(LoadingStatus.LOADING);
+      while(localAppearances.length <= 8){
         _totalPages += 100;
         localAppearances.addAll(await _apiService.getAppearances(_totalPages));
       }
       _appearances = localAppearances;
       setLoadingStatus(LoadingStatus.DONE);
-      print(localAppearances.length);
     } else {
+      setLoadingStatus(LoadingStatus.LOADING);
       localAppearances.addAll(await addTwelve(_appearances, _totalPages));
       _appearances.addAll(localAppearances);
       setLoadingStatus(LoadingStatus.DONE);
     }
     } catch (e){
       setLoadingStatus(LoadingStatus.ERROR);
+      print(e.toString());
     }
 
   }
 
   Future<List<Appearance>> addTwelve(List<Appearance> localAppearance, int offset) async {
     int count = 0;
-    print("adding twelve");
-    while (count <= 12){
+    while (count <= 9){
       offset += 100;
       localAppearance.addAll(await _apiService.getAppearances(offset));
       count++;
-      print(count);
       _totalPages += 100;
     }
     return localAppearance;

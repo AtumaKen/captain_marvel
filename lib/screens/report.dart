@@ -6,7 +6,7 @@ class ReportWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(children: [
-      CommonWidget(), FollowWidget()
+      CommonWidget(imageName: "assets/images/captain_marvel_report.jpg",), FollowWidget()
     ],);
   }
 }
