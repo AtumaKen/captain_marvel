@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-
 void main() {
   runApp(MyApp());
 }
@@ -17,8 +16,12 @@ class MyApp extends StatelessWidget {
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider.value(
-          value: ComicProvider(),
+        //create manages the entire life cycle of the provider
+        /// If you already have an instance of [ChangeNotifier] and want to expose it,
+        /// you should use [ChangeNotifierProvider.value] instead of the default
+        /// Failing to do so may dispose the [ChangeNotifier] when it is still in use.
+        ChangeNotifierProvider<ComicProvider>(
+          create: (_) => ComicProvider(),
         ),
         ChangeNotifierProvider.value(value: AppearanceProvider())
       ],

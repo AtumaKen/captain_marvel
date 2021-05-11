@@ -31,18 +31,20 @@ class ComicProvider with ChangeNotifier {
         _comics = localComics;
         setLoadingStatus(LoadingStatus.DONE);
       } else if(_totalPages <= ApiService.totalComics) {
-        setLoadingStatus(LoadingStatus.LOADING);
-        _comics.addAll(localComics);
-        _totalPages += comics.length;
-        print(_totalPages);
-        setLoadingStatus(LoadingStatus.DONE);
-        //todo: set end of list notification
+        _loadMore(localComics);
       }
       else setLoadingStatus(LoadingStatus.END);
     } catch(e){
       setLoadingStatus(LoadingStatus.ERROR);
       print(e.toString());
     }
+  }
+
+  void _loadMore(List<Comic> localComics) {
+    setLoadingStatus(LoadingStatus.LOADING);
+    _comics.addAll(localComics);
+    _totalPages += comics.length;
+    setLoadingStatus(LoadingStatus.DONE);
   }
 
 
